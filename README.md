@@ -44,4 +44,36 @@
 
 
 ## Data and Schema Modeling(week 7):
--
+-Data is embedded within another in MongoDB, rather than dispersing to diff locations.
+-Data should be close association if they link 
+-As data complexity increases, no. of objects is limited due to RAM.
+-Embedding data together reduces queries and simplifies operations.
+-References => Data rarely accesed simultaneously can be stored seperately to optimize RAM.
+-Gotchas => Optimize performance by storing only important info and the rest in a seperate collection.
+-Indices => Facilitates a quick lookup of info. in the database without scanning entire data set.
+-Collection Types:
+-Capped collections, designed for scenarios such as log data where order is crucial, limit the stored data and automatically purge older documents upon reaching the specified cap. => capped set to TRUE
+-Automatic deletion mechanism in capped collections ensures old data removed first.
+-Possible to change a an existing collection to capped.
+-Limitations => absence of default index and inability to be sharded.
+
+## Development with MongoDB(week 7):
+-GridFS => breaks down file contents into chunks(each in own document) while parent document holds info on the file.
+
+## Server-side Administration with MongoDB(week 7):
+-Config files are written in YAML, placed differently based on operating system and manually configured.
+-Log files and database paths are directed to specific locations, enabling separation onto different physical disks. Other notable options include directory per database, maximum incoming connections, and process management settings like forking for background processes, often preferred in production environments.
+-Security considerations involve enabling authorization for role-based authentication, and a cautionary note about enabling JavaScript due to potential security issues. Replication settings, such as specifying the default replica set name, are crucial.
+-MongoDB recommends replica sets(running multiple identical copies of database concurrently).
+-Primary node replicates data to secondaries, if primary unavailable,secondary database takes its role.
+-rs.initiate() => logging into primary node.
+-rs.status() or db.isMaster() => verify statues of replica set
+-Sharding => distributing data across multiple servers, for performance and infastructure benefits. Allows scaling.
+-MongoDb provides automatic sharding; sharding divides data among servers
+-sharding introduces MongoS, acts as a router with table of contents, tracking data locations using a shard key and config servers.
+-MongoS determines where data resides, retrieves it from the correct server, and merges it seamlessly, simplifying the process for the client.
+-To automate sharding, enable it on the database, specify a collection, and choose a shard key.
+-Authentication, akin to logging into an account, involves MongoDB usernames, passwords, or keys for access—a bit like having a badge for an office building. 
+-Backups:
+-Copying data files, a relatively straightforward yet manual approach. 
+-Running 'mongodump' creates a dump folder with subfolders for each database containing collection files.
